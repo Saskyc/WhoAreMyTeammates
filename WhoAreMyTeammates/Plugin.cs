@@ -17,7 +17,7 @@ namespace WhoAreMyTeammates
     /// </summary>
     public class Plugin : Plugin<Config>
     {
-        private EventHandlers eventHandlers;
+        public static Plugin Instance;
 
         /// <inheritdoc />
         public override string Author { get; } = "XoMiya-WPC, TheUltiOne & Build";
@@ -29,26 +29,26 @@ namespace WhoAreMyTeammates
         public override string Prefix { get; } = "WhoAreMyTeammates";
 
         /// <inheritdoc />
-        public override Version RequiredExiledVersion { get; } = new Version(5, 3, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(9, 8, 1);
 
         /// <inheritdoc />
-        public override Version Version { get; } = new Version(4, 2, 0);
+        public override Version Version { get; } = new Version(5, 2, 0);
 
         /// <inheritdoc />
         public override void OnEnabled()
         {
-            eventHandlers = new EventHandlers(this);
-            Player.ChangingRole += eventHandlers.OnChangingRole;
-            Server.RoundStarted += eventHandlers.OnRoundStarted;
+            Instance = this;
+            Player.ChangingRole += EventHandlers.OnChangingRole;
+            Server.RoundStarted += EventHandlers.OnRoundStarted;
             base.OnEnabled();
         }
 
         /// <inheritdoc />
         public override void OnDisabled()
         {
-            Player.ChangingRole -= eventHandlers.OnChangingRole;
-            Server.RoundStarted -= eventHandlers.OnRoundStarted;
-            eventHandlers = null;
+            Instance = null;
+            Player.ChangingRole -= EventHandlers.OnChangingRole;
+            Server.RoundStarted -= EventHandlers.OnRoundStarted;
 
             base.OnDisabled();
         }

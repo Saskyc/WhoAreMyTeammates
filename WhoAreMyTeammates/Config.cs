@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using PlayerRoles;
+
 namespace WhoAreMyTeammates
 {
     using Exiled.API.Interfaces;
@@ -13,10 +15,12 @@ namespace WhoAreMyTeammates
     using WhoAreMyTeammates.Models;
 
     /// <inheritdoc />
-    public sealed class Config : IConfig
+    public class Config : IConfig
     {
         /// <inheritdoc />
         public bool IsEnabled { get; set; } = true;
+
+        public bool Debug { get; set; } = false;
 
         /// <summary>
         /// Gets or sets the delay after the round starts before broadcasts will be displayed.
@@ -32,7 +36,7 @@ namespace WhoAreMyTeammates
         {
             new WamtBroadcast()
             {
-                Team = Team.SCP,
+                Team = Team.SCPs,
                 Contents = "Welcome to the<color=red><b> SCP Team.</b></color><color=#00ffff> The following SCPs are on this team: </color><color=red>%list%</color>",
                 AloneContents = "<color=red>Attention - You are the <b>only</b> SCP This game. Good Luck.</color>",
                 ChangeClassContents = "Welcome to the <color=red><b> SCP Team.</b></color><color=#00ffff> The following SCPs are on this team: </color><color=red>%list%</color>",
@@ -45,7 +49,7 @@ namespace WhoAreMyTeammates
             },
             new WamtBroadcast()
             {
-                Team = Team.MTF,
+                Team = Team.FoundationForces,
                 Contents = "Welcome to the<color=grey><b> MTF Team.</b></color><color=#00ffff> The following Guards are on this team: </color><color=grey>%list%</color>",
                 AloneContents = "<color=grey>Attention - You are the <b>only</b> Facility Guard this game. Good Luck.</color>",
                 ChangeClassContents = "Welcome to the<color=grey><b> MTF Team.</b></color><color=#00ffff> The following Guards are on this team: </color><color=grey>%list%</color>",
@@ -58,7 +62,7 @@ namespace WhoAreMyTeammates
             },
             new WamtBroadcast()
             {
-                Team = Team.RSC,
+                Team = Team.Scientists,
                 Contents = "Welcome to the<color=yellow><b> Scientist Team.</b></color><color=#00ffff> These are your partners in science: </color><color=yellow>%list%</color>",
                 AloneContents = "<color=yellow>Attention - You are the <b>only</b> Scientist this game. Good Luck.</color>",
                 ChangeClassContents = "Welcome to the<color=yellow><b> Scientist Team.</b></color><color=#00ffff> These are your partners in science: </color><color=yellow>%list%</color>",
@@ -71,7 +75,7 @@ namespace WhoAreMyTeammates
             },
             new WamtBroadcast()
             {
-                Team = Team.CDP,
+                Team = Team.ClassD,
                 Contents = "Welcome to the<color=orange><b> Class D Team.</b></color> The following class Ds are on this team: <color=orange>%list%</color>",
                 AloneContents = "<color=orange>Attention - You are the <b>only</b> Class D Personnel this game. Good Luck.</color>",
                 ChangeClassContents = "Welcome to the<color=orange><b> Class D Team.</b></color> The following class Ds are on this team: <color=orange>%list%</color>",
@@ -84,7 +88,7 @@ namespace WhoAreMyTeammates
             },
             new WamtBroadcast
             {
-                Team = Team.CHI,
+                Team = Team.ChaosInsurgency,
                 Contents = "Welcome to the<color=green><b> Chaos Insurgency.</b></color> The following players are your comrades: <color=green>%list%</color>",
                 AloneContents = "<color=green>Attention - You are the <b>only</b> Insurgent this game. Good Luck.</color>",
                 ChangeClassContents = "Welcome to the<color=green><b> Chaos Insurgency.</b></color> The following players are your comrades: <color=green>%list%</color>",

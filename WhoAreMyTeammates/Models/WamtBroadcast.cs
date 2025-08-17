@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using PlayerRoles;
+
 namespace WhoAreMyTeammates.Models
 {
     public class WamtBroadcast

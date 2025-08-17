@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using Exiled.Events.EventArgs.Player;
+
 namespace WhoAreMyTeammates
 {
     using System.Collections.Generic;
@@ -21,29 +23,21 @@ namespace WhoAreMyTeammates
     /// </summary>
     public class EventHandlers
     {
-        private readonly Plugin plugin;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EventHandlers"/> class.
-        /// </summary>
-        /// <param name="plugin">An instance of the plugin class.</param>
-        public EventHandlers(Plugin plugin) => this.plugin = plugin;
-
-        public void OnRoundStarted()
+        public static void OnRoundStarted()
         {
-            Timing.CallDelayed(plugin.Config.DelayTime, () =>
+            Timing.CallDelayed(Plugin.Instance.Config.DelayTime, () =>
             {
-                foreach (WamtBroadcast broadcast in plugin.Config.WamtBroadcasts)
+                foreach (WamtBroadcast broadcast in Plugin.Instance.Config.WamtBroadcasts)
                     RunBroadcast(broadcast);
             });
         }
 
-        public void OnChangingRole(ChangingRoleEventArgs ev)
+        public static void OnChangingRole(ChangingRoleEventArgs ev)
         {
             var CREV = ev;
             Timing.CallDelayed(1f, () =>
             {
-                foreach (WamtBroadcast broadcast in plugin.Config.WamtBroadcasts)
+                foreach (WamtBroadcast broadcast in Plugin.Instance.Config.WamtBroadcasts)
                 {
                     List<Player> players = Player.Get(broadcast.Team).ToList();
                     if (broadcast.ClassChangeIsEnabled)
@@ -55,7 +49,7 @@ namespace WhoAreMyTeammates
             });
         }
 
-        private void ChangeRoleBc(ChangingRoleEventArgs CREV, WamtBroadcast broadcast)
+        internal static void ChangeRoleBc(ChangingRoleEventArgs CREV, WamtBroadcast broadcast)
         {
             List<Player> players = Player.Get(broadcast.Team).ToList();
             if (broadcast.MaxPlayers > -1 && players.Count >= broadcast.MaxPlayers)
@@ -70,7 +64,7 @@ namespace WhoAreMyTeammates
             DisplayBroadcast(CREV.Player, contentsFormatted, broadcast.Time, broadcast.Type);
         }
 
-        private void RunBroadcast(WamtBroadcast broadcast)
+        internal static void RunBroadcast(WamtBroadcast broadcast)
         {
             if (!broadcast.IsEnabled)
                 return;
@@ -91,7 +85,7 @@ namespace WhoAreMyTeammates
                 Timing.CallDelayed(broadcast.Delay, () => DisplayBroadcast(player, contentsFormatted, broadcast.Time, broadcast.Type));
         }
 
-        private void DisplayBroadcast(Player player, string content, ushort duration, DisplayType displayType)
+        internal static void DisplayBroadcast(Player player, string content, ushort duration, DisplayType displayType)
         {
             switch (displayType)
             {
@@ -107,7 +101,7 @@ namespace WhoAreMyTeammates
             }
         }
 
-        private string GeneratePlayerList(IList<Player> players, WamtBroadcast broadcast)
+        internal static string GeneratePlayerList(IList<Player> players, WamtBroadcast broadcast)
         {
             StringBuilder stringBuilder = StringBuilderPool.Shared.Rent();
             if (!broadcast.Contents.Contains("%list%"))
@@ -120,7 +114,7 @@ namespace WhoAreMyTeammates
 
                 stringBuilder.Append(' ').Append(player.Nickname);
                 if (player.IsScp)
-                    stringBuilder.Append(' ').Append('(').Append(player.ReferenceHub.characterClassManager.CurRole.fullName).Append(')');
+                    stringBuilder.Append(' ').Append('(').Append(player.Role.Name).Append(')');
 
                 if (i != cutOff)
                     stringBuilder.Append(", ");
