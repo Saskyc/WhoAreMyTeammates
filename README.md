@@ -1,4 +1,4 @@
-![img](https://img.shields.io/github/downloads/XoMiya-WPC/WhoAreMyTeammates/total?style=for-the-badge)
+![img](https://img.shields.io/github/downloads/Saskyc/WhoAreMyTeammates/total?style=for-the-badge)
 # WhoAreMyTeammates?
 
 <h1>Intro</h1>
